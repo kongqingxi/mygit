@@ -1,0 +1,94 @@
+启动本地kafka服务：
+   1、切到kafka目录下，启动zookeeper服务，执行./bin/zookeeper-server-start.sh ./config/zookeeper.properties。
+         window系统下：bin\windows\zookeeper-server-start.bat config/zookeeper.properties   bin\windows\kafka-server-start.bat config\server.properties
+   2、若是报端口被使用，则执行lsof -i:2181,查看使用该端口的pid，再使用kill -9 pid强制终止。
+   3、然后再重新启动zookeeper服务。
+   4、然后启动kafka服务，执行./bin/kafka-server-start.sh ./config/server.properties。
+   5、创建topic-test1,执行./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test1.
+   6、查看所有topic，执行./bin/kafka-topics.sh --list --zookeeper localhost:2181。
+   7、向test1生产消息，执行./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test1。
+   8、消费test1里数据，执行./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test1 --from-beginning.
+
+启动本地dubbo-admin服务（观察zookeeper服务治理情况）：
+   1、修改dubbo-admin-server下配置文件zookeeper地址
+   2、在根目录下执行打包目录 mvn clean package (打包时间较长)
+   3、启动后端服务 dubbo-Admin-develop\dubbo-admin-distribution\target目录下启动 java -jar .\dubbo-admin-0.1.jar
+   4、启动前端服务 dubbo-admin-ui目录下执行命令 npm run dev 
+   5、浏览器访问 http://localhost:8082/  账号密码root/root
+
+启动本地redis服务：
+   1、编译测试:　make test
+   2、编译安装:  make install
+   3、启动服务： redis-server
+
+修改管理员root密码：
+   修改当前用户密码，passwd(要记得原密码)  cy:123456 root:root
+   1、输入sudo bash，输入当前用户密码
+   2、输出passwd root，重置密码
+
+Unix系统谷歌浏览器保存不了密码：
+   1. 退出Chrome 浏览器.
+   2. 打开Chrome的Default文件夹.删除Login Data 与 Login Data-journal
+      注:Chrome的个人配置即Profile文件可以有多个,默认的是Default,其他的依次为Profile1,Profile2...需要全部删除.
+      Mac(Unix)：~/Library/Application Support/Google/Chrome/Default
+      Linux：~/.config/google-chrome
+      Windows：%UserProfile%\AppData\Local\Google\Chrome\User Data
+
+Linix常用命令：
+    查看当前目录下文件：ll或ls
+    打开文件夹：cd 相对路径或绝对路径
+    返回上一级：cd .. cd 返回上两级：../.. 返回根目录：cd /
+    查看文件权限：ll
+    修改文件权限：chmod 777 filename
+    查看文件：cat或tail
+    编辑文件：vim filename  然后按i进入编辑模式 按esc换编辑模式或命令模式 :wq写入并退出，!q强制退出
+		:5 跳到第五行    shift+g 跳至文件末尾   gg  跳到第一行      :set list显示隐藏字符 :set nolist隐藏
+    查看端口使用情况：lsof -i:8080
+    强制杀死进程：kill -9 pid
+    日志搜索：grep -5 'key'  目录下文件递归搜索： grep -r  key ./*
+    磁盘占用空间详细：df -h
+    磁盘占用空间：du -sh /mnt/*
+    进程是否存在：ps -ef | grep java    ps -aux
+    改变所属用户：chown  IFS:IFS  /home/IFS/ -R 
+    发送文件：scp  -r  file  root@111.12.12.11:/home/IFS/conf
+    切换到管理员：sudo su root
+    显示文件行数（统计）：wc -l
+    文本分析：awk -F: '{print $1}'   以冒号分割，输出第一列
+
+mvn常用命令：
+     1、显示版本 mvn -version
+     2、本地jar添加到本地仓库：mvn install:install-file -Dfile=  -DgroupId=  -DartifactId=  -Dversion=  -Dpackaging=jar
+
+Linux排查cpu飙高问题：
+    1、top命令找出占用cpu最高的进程。
+    2、top-H -p 2308  找到最高的线程id
+    3、printf "%x\n" 3626把线程id转换16进制 
+    4、jstack 2633 |grep e18 -A 30
+
+    Arthas(阿尔萨斯)阿里巴巴开源的 Java 诊断工具
+
+
+idea常用快捷键:
+    查找类：ctrl+N
+    全局查找：ctrl+shift+F
+    注释行：ctrl+/
+    注释代码块：ctrl+alt+/
+    代码快速移动：ctrl+shift+↕️
+    自助提示：alt+/
+    删除行：ctrl+x
+    撤销：ctrl+z
+    反撤销：ctrl+shift+z
+    快速返回值：ctrl+alt+V
+    快速trycatch：ctrl+alt+T
+    查看方法：ctrl+左击
+    查看实现方法：ctrl+alt+左击
+    方法注释类注释：ctrl+j
+    查看方法引用：ctrl+b
+    查看所有引用：alt+F7
+    打印：sout
+    main方法：psvm
+    转为大写：ctrl+shift+u
+
+开发工具集合：
+    知识全栈体系：http://pdai.tech/ 
+    云笔记：阿里语雀
